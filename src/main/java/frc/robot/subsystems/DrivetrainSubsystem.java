@@ -40,6 +40,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 
 public class DrivetrainSubsystem extends SubsystemBase {
 
@@ -234,21 +235,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         @Override
         public void periodic() {
-                SmartDashboard.putNumber("Front Left Position", m_frontLeftModule.getDrivePosition());
-                SmartDashboard.putNumber("Front Right Position", m_frontRightModule.getDrivePosition());
-
-                SmartDashboard.putNumber("Rear Left Velocity", m_backLeftModule.getDriveVelocity());
-                SmartDashboard.putNumber("Rear Right Velocity", m_backRightModule.getDriveVelocity());
-
-                SmartDashboard.putNumber("Front Left: " + m_frontLeftModule.getSteerID(),
-                                m_frontLeftModule.getSteerCurrentOutput());
-                SmartDashboard.putNumber("Front Right: " + m_frontRightModule.getSteerID(),
-                                m_frontRightModule.getSteerCurrentOutput());
-                SmartDashboard.putNumber("Back Left: " + m_backLeftModule.getSteerID(),
-                                m_backLeftModule.getSteerCurrentOutput());
-                SmartDashboard.putNumber("Back Right: " + m_backRightModule.getSteerID(),
-                                m_backRightModule.getSteerCurrentOutput());
-
                 SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
                 SwerveDriveKinematics.desaturateWheelSpeeds(states,
                                 MAX_VELOCITY_METERS_PER_SECOND);
@@ -265,9 +251,5 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 m_backRightModule.set(states[3].speedMetersPerSecond /
                                 MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE,
                                 states[3].angle.getRadians());
-
-                SmartDashboard.putNumber("FRONT LEFT DRIVE POSITION",
-                                this.m_frontLeftModule.getDrivePosition());
-
         }
 }

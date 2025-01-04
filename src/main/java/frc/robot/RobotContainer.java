@@ -32,7 +32,7 @@ import static frc.robot.Constants.DriveTrain.X_LIMIT;
 import static frc.robot.Constants.DriveTrain.Y_LIMIT;
 import static frc.robot.Constants.IntakeShooter.INTAKE_SPEED;
 import static frc.robot.Constants.IntakeShooter.SPEW_INTAKE_SPEED;
-import static frc.robot.Constants.OI.DRIVER_STICK;
+import static frc.robot.Constants.OI.DRIVER_PORT;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -41,18 +41,17 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AmpCommand;
 import frc.robot.commands.CenterAutonCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.MoveArmsCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.SideAutonCommand;
+import frc.robot.commands.auto.amp.AutoAmpSequentialCommand;
 import frc.robot.subsystems.ArmsSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -71,31 +70,34 @@ import frc.robot.subsystems.RingSensorSubsystem;
  */
 public class RobotContainer {
 
-  public static boolean auton = false;
-
   // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
 
-  @SuppressWarnings("unused")
-  private final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
+  // @SuppressWarnings("unused")
+  // private final LimelightSubsystem m_limelightSubsystem = new LimelightSubsystem();
 
-  public static final RingSensorSubsystem m_ringSensorSubsystem = new RingSensorSubsystem();
-  private final ArmsSubsystem m_armsSubsystem = new ArmsSubsystem();
-  private final IntakeShooterSubsystem m_intakeShooterSubsystem = new IntakeShooterSubsystem();
-  private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+  // public static final RingSensorSubsystem m_ringSensorSubsystem = new RingSensorSubsystem();
+  // private final ArmsSubsystem m_armsSubsystem = new ArmsSubsystem();
+  // private final IntakeShooterSubsystem m_intakeShooterSubsystem = new IntakeShooterSubsystem();
+  // private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+  // private final AutoAmpCommand m_autoAmpCommand = new
+  // AutoAmpCommand(m_drivetrainSubsystem, m_limelightSubsystem);
 
-  private final CenterAutonCommand centerAutonCommand = new CenterAutonCommand(
-      m_intakeShooterSubsystem, m_drivetrainSubsystem, m_armsSubsystem, m_ringSensorSubsystem);
+  // private final AutoAmpSequentialCommand m_autoAmpCommand = new AutoAmpSequentialCommand(m_drivetrainSubsystem,
+  //     m_armsSubsystem, m_limelightSubsystem);
 
-  private Command autoCommand = centerAutonCommand;
+  // private final CenterAutonCommand centerAutonCommand = new CenterAutonCommand(
+  //     m_intakeShooterSubsystem, m_drivetrainSubsystem, m_armsSubsystem, m_ringSensorSubsystem);
 
-  private final SideAutonCommand sideAutonCommand = new SideAutonCommand(m_intakeShooterSubsystem,
-      m_drivetrainSubsystem, m_armsSubsystem);
+  // private Command autoCommand = centerAutonCommand;
 
-  @SuppressWarnings("unused")
-  private final AmpCommand ampCommand = new AmpCommand(m_armsSubsystem, m_intakeShooterSubsystem);
+  // private final SideAutonCommand sideAutonCommand = new SideAutonCommand(m_intakeShooterSubsystem,
+  //     m_drivetrainSubsystem, m_armsSubsystem);
 
-  public static final Joystick joystick = new Joystick(DRIVER_STICK);
+  // @SuppressWarnings("unused")
+  // private final AmpCommand ampCommand = new AmpCommand(m_armsSubsystem, m_intakeShooterSubsystem);
+
+  public static final Joystick joystick = new Joystick(DRIVER_PORT);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -107,23 +109,33 @@ public class RobotContainer {
     // Left stick X axis -> left and right movement
     // Right stick X axis -> rotation
 
-    ShuffleboardTab dashboardTab = Shuffleboard.getTab("dashboard");
+    // ShuffleboardTab dashboardTab = Shuffleboard.getTab("dashboard");
 
-    SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+    // SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
-    autoChooser.setDefaultOption("Center", centerAutonCommand);
-    autoChooser.addOption("Sides", sideAutonCommand);
+    // autoChooser.setDefaultOption("Center", centerAutonCommand);
+    // autoChooser.addOption("Sides", sideAutonCommand);
 
-    autoChooser.onChange((command) -> this.autoCommand = command);
+    // autoChooser.onChange((command) -> this.autoCommand = command);
 
-    dashboardTab.add(autoChooser);
+    // dashboardTab.add(autoChooser);
 
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
         m_drivetrainSubsystem,
-        () -> -modifyAxis(-joystick.getY() * Y_LIMIT) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(-joystick.getX() * X_LIMIT) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> -modifyAxis(-joystick.getY() * Y_LIMIT) *
+            DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> -modifyAxis(-joystick.getX() * X_LIMIT) *
+            DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         () -> -modifyAxis(-joystick.getTwist() * TWIST_LIMIT)
             * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+    // m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
+    // m_drivetrainSubsystem,
+    // () -> -modifyAxis(-controller.getLeftY()) *
+    // DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+    // () -> -modifyAxis(-controller.getLeftX()) *
+    // DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+    // () -> -modifyAxis(-controller.getRightX() * TWIST_LIMIT)
+    // * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -137,55 +149,60 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
-    new POVButton(joystick, ARMS_PICKUP_POV)
-        .onTrue(new MoveArmsCommand(m_armsSubsystem, ARMS_PICKUP_POS, ARMS_PICKUP_LOW_SPEED, ARMS_PICKUP_HIGH_SPEED));
-    
-        new POVButton(joystick, ARMS_ZERO_POV)
-        .onTrue(new MoveArmsCommand(m_armsSubsystem, ARMS_ZERO_POS, ARMS_ZERO_LOW_SPEED, ARMS_ZERO_HIGH_SPEED));
 
-    new JoystickButton(joystick, INTAKE_BUTTON)
-        .whileTrue(new RunCommand(() -> {
-          if (m_ringSensorSubsystem.ringDetected()) {
-            m_intakeShooterSubsystem.setSpeed(m_intakeShooterSubsystem.shooterSpeed, 0);
-            m_armsSubsystem.setTarget(ARMS_LOW_POS, ARMS_LOW_LOW_SPEED, ARMS_LOW_HIGH_SPEED);
-        } else
-            m_intakeShooterSubsystem.setSpeed(m_intakeShooterSubsystem.shooterSpeed, INTAKE_SPEED);
-        }, m_ringSensorSubsystem, m_intakeShooterSubsystem))
-        .onFalse(new RunCommand(() -> m_intakeShooterSubsystem.setSpeed(0, 0)));
+    // new JoystickButton(joystick, 4).onTrue(m_autoAmpCommand);
 
-    new JoystickButton(joystick, SPEW_INTAKE_BUTTON)
-        .whileTrue(new RunCommand(() -> {
-          m_intakeShooterSubsystem.setSpeed(m_intakeShooterSubsystem.shooterSpeed, SPEW_INTAKE_SPEED);
-        }, m_intakeShooterSubsystem))
-        .onFalse(new RunCommand(() -> m_intakeShooterSubsystem.setSpeed(0, 0)));
+    // new POVButton(joystick, ARMS_PICKUP_POV)
+    //     .onTrue(new MoveArmsCommand(m_armsSubsystem, ARMS_PICKUP_POS, ARMS_PICKUP_LOW_SPEED, ARMS_PICKUP_HIGH_SPEED));
 
-    new JoystickButton(joystick, SHOOT_BUTTON)
-        .whileTrue(new ShootCommand(m_intakeShooterSubsystem, m_armsSubsystem))
-        .onFalse(new RunCommand(() -> m_intakeShooterSubsystem.setSpeed(0, 0)));
+     //new JoystickButton(joystick, 1)
+         //.whileTrue(m_autoAmpCommand);
 
-    //  new Trigger(() -> m_ringSensorSubsystem.ringDetected())
-    //   .onTrue(new ConditionalCommand(new MoveArmsCommand(m_armsSubsystem, ARMS_LOW_POS, ARMS_LOW_LOW_SPEED, ARMS_LOW_HIGH_SPEED), new InstantCommand(), () -> !RobotContainer.auton));
+    // new JoystickButton(joystick, 2).onTrue(new InstantCommand(() -> m_drivetrainSubsystem.zeroGyroscope()));
 
-    new JoystickButton(joystick, ARMS_LOW_BUTTON)
-        .onTrue(new MoveArmsCommand(m_armsSubsystem, ARMS_LOW_POS, ARMS_LOW_LOW_SPEED, ARMS_LOW_HIGH_SPEED));
+    // new POVButton(joystick, ARMS_ZERO_POV)
+    //     .onTrue(new MoveArmsCommand(m_armsSubsystem, ARMS_ZERO_POS,
+    //         ARMS_ZERO_LOW_SPEED, ARMS_ZERO_HIGH_SPEED));
 
-        // new JoystickButton(joystick, ARMS_MID_BUTTON)
-    //     .onTrue(new InstantCommand(() -> m_armsSubsystem.setTarget(ARMS_MID_POS, ARMS_MID_LOW_SPEED, ARMS_MID_HIGH_SPEED)));
-    // new JoystickButton(joystick, DRIVING_ARM_BUTTON)
-    //     .onTrue(new InstantCommand(() -> m_armsSubsystem.setTarget(ARMS_DRIVING_POS, ARMS_DRIVING_LOW_SPEED, ARMS_DRIVING_HIGH_SPEED)));
-    new JoystickButton(joystick, ARMS_AMP_BUTTON)
-        .onTrue(new MoveArmsCommand(m_armsSubsystem, ARMS_AMP_POS, ARMS_AMP_LOW_SPEED, ARMS_AMP_HIGH_SPEED));
+    // new JoystickButton(joystick, INTAKE_BUTTON)
+    //     .whileTrue(new RunCommand(() -> {
+    //       if (m_ringSensorSubsystem.ringDetected()) {
+    //         m_intakeShooterSubsystem.setSpeed(m_intakeShooterSubsystem.shooterSpeed, 0);
+    //         m_armsSubsystem.setTarget(ARMS_LOW_POS, ARMS_LOW_LOW_SPEED,
+    //             ARMS_LOW_HIGH_SPEED);
+    //       } else
+    //         m_intakeShooterSubsystem.setSpeed(m_intakeShooterSubsystem.shooterSpeed,
+    //             INTAKE_SPEED);
+    //     }, m_ringSensorSubsystem, m_intakeShooterSubsystem))
+    //     .onFalse(new RunCommand(() -> m_intakeShooterSubsystem.setSpeed(0, 0)));
 
-    new JoystickButton(joystick, CLIMBER_DOWN_BUTTON)
-        .onTrue(new InstantCommand(() -> m_climberSubsystem.setSpeed(CLIMBER_DOWN_SPEED)))
-        .onFalse(new InstantCommand(() -> m_climberSubsystem.setSpeed(0)));
+    // new JoystickButton(joystick, SPEW_INTAKE_BUTTON)
+    //     .whileTrue(new RunCommand(() -> {
+    //       m_intakeShooterSubsystem.setSpeed(m_intakeShooterSubsystem.shooterSpeed,
+    //           SPEW_INTAKE_SPEED);
+    //     }, m_intakeShooterSubsystem))
+    //     .onFalse(new RunCommand(() -> m_intakeShooterSubsystem.setSpeed(0, 0)));
 
-    new JoystickButton(joystick, CLIMBER_UP_BUTTON)
-        .onTrue(new InstantCommand(() -> m_climberSubsystem.setSpeed(CLIMBER_UP_SPEED)))
-        .onFalse(new InstantCommand(() -> m_climberSubsystem.setSpeed(0)));
+    // new JoystickButton(joystick, SHOOT_BUTTON)
+    //     .whileTrue(new ShootCommand(m_intakeShooterSubsystem, m_armsSubsystem))
+    //     .onFalse(new RunCommand(() -> m_intakeShooterSubsystem.setSpeed(0, 0)));
 
-    new JoystickButton(joystick, 16).onTrue(new InstantCommand(() -> m_drivetrainSubsystem.zeroGyroscope()));
+    // new JoystickButton(joystick, ARMS_LOW_BUTTON)
+    //     .onTrue(new MoveArmsCommand(m_armsSubsystem, ARMS_LOW_POS,
+    //         ARMS_LOW_LOW_SPEED, ARMS_LOW_HIGH_SPEED));
+
+    // new JoystickButton(joystick, ARMS_AMP_BUTTON)
+    //     .onTrue(new MoveArmsCommand(m_armsSubsystem, ARMS_AMP_POS,
+    //         ARMS_AMP_LOW_SPEED, ARMS_AMP_HIGH_SPEED));
+
+    // new JoystickButton(joystick, CLIMBER_DOWN_BUTTON)
+    //     .onTrue(new InstantCommand(() -> m_climberSubsystem.setSpeed(CLIMBER_DOWN_SPEED)))
+    //     .onFalse(new InstantCommand(() -> m_climberSubsystem.setSpeed(0)));
+
+    //new JoystickButton(joystick, 15).whileTrue(new InstantCommand(() -> m_armsSubsystem.setSpeed(0.5))).onFalse(new InstantCommand(() -> m_armsSubsystem.stop()));
+    //new JoystickButton(joystick, 16).whileTrue(new InstantCommand(() -> m_armsSubsystem.setSpeed(-0.5))).onFalse(new InstantCommand(() -> m_armsSubsystem.stop()));
+
+    // new JoystickButton(joystick, 9).onTrue(new InstantCommand(() -> m_drivetrainSubsystem.zeroGyroscope()));
   }
 
   /**
@@ -195,7 +212,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return autoCommand;
+    return null;
   }
 
   private static double deadband(double value, double deadband) {
@@ -212,7 +229,7 @@ public class RobotContainer {
 
   private static double modifyAxis(double value) {
     // Deadband
-    value = deadband(value, 0.05);
+    value = deadband(value, 0.15);
 
     // Square the axis
     value = Math.copySign(value * value, value);

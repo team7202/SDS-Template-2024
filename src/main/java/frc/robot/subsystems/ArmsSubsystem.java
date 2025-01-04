@@ -17,6 +17,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmsSubsystem extends SubsystemBase {
@@ -28,6 +29,8 @@ public class ArmsSubsystem extends SubsystemBase {
   private final CANSparkMax rightArm;
   private final RelativeEncoder leftEncoder;
   private final RelativeEncoder rightEncoder;
+
+  private double speed = 0.0;
 
   private double target = 0.0;
   private double lowSpeed = ARMS_ZERO_LOW_SPEED;
@@ -60,9 +63,19 @@ public class ArmsSubsystem extends SubsystemBase {
     return positions;
   }
 
+  public void setSpeed(double speed) {
+    this.speed = speed;
+  }
+
+  public void stop() {
+    this.speed = 0;
+  }
+
   @Override
   public void periodic() {
-    double speed = MathUtil.clamp(this.pid.calculate(this.leftEncoder.getPosition(), target), lowSpeed, highSpeed);
+     double speed = MathUtil.clamp(this.pid.calculate(this.leftEncoder.getPosition(), target), lowSpeed, highSpeed);
+    SmartDashboard.putNumber("arms target", target);
+    SmartDashboard.putNumber("arms speed", speed);
     this.leftArm.set(speed);
     this.rightArm.set(speed);
   }

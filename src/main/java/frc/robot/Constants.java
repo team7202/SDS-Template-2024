@@ -56,21 +56,23 @@ public final class Constants {
 
         public static final double Y_LIMIT = 0.8;
         public static final double X_LIMIT = 0.8;
-        public static final double TWIST_LIMIT = 0.75;
+        public static final double TWIST_LIMIT = 0.6;
     }
 
     public static class Arms {
         public static final int ARMS_LEFT_MOTOR = 18;
         public static final int ARMS_RIGHT_MOTOR = 21;
 
-        // public static final double kP = 0.05;
-        public static final double kP = 0.025;
+        public static final double kP = 0.05;
+        // public static final double kP = 0.025;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
 
         public static final double ARMS_PICKUP_POS = -15;
-        public static final double ARMS_PICKUP_LOW_SPEED = -0.1;
-        public static final double ARMS_PICKUP_HIGH_SPEED = 0.1;
+        // public static final double ARMS_PICKUP_LOW_SPEED = -0.1;
+        public static final double ARMS_PICKUP_LOW_SPEED = -0.125;
+        // public static final double ARMS_PICKUP_HIGH_SPEED = 0.1;
+        public static final double ARMS_PICKUP_HIGH_SPEED = 0.125;
 
         public static final double ARMS_ZERO_POS = 0;
         public static final double ARMS_ZERO_LOW_SPEED = -0.15;
@@ -111,7 +113,7 @@ public final class Constants {
     }
 
     public static class OI {
-        public static final int DRIVER_STICK = 0;
+        public static final int DRIVER_PORT = 0;
     }
 
     public static class ButtonMap {
@@ -123,9 +125,9 @@ public final class Constants {
         public static final int ARMS_LOW_BUTTON = 5;
         public static final int ARMS_MID_BUTTON = 6;
         public static final int ARMS_AMP_BUTTON = 7;
-        public static final int CLIMBER_DOWN_BUTTON = 12;
+        public static final int CLIMBER_DOWN_BUTTON = 3;
         public static final int CLIMBER_UP_BUTTON = 13;
-        public static final int SPEW_INTAKE_BUTTON = 14;
+        public static final int SPEW_INTAKE_BUTTON = 10;
         public static final int DRIVING_ARM_BUTTON = 16;
     }
 }

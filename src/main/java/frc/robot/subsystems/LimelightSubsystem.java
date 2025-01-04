@@ -26,4 +26,24 @@ public class LimelightSubsystem extends SubsystemBase {
 
     // This method will be called once per scheduler run
   }
+
+  public void setPipeline(int pipeline) {
+    table.getEntry("pipeline").setInteger(pipeline);
+  }
+
+  public float getX() {
+    return table.getEntry("tx").getFloat(0.0f);
+  }
+
+  public float getY() {
+    return table.getEntry("ty").getFloat(0.0f);
+  }
+
+  public float getArea() {
+    return table.getEntry("ta").getFloat(0.0f);
+  }
+
+  public float getLatency() {
+    return table.getEntry("tl").getFloat(0.0f);
+  }
 }
